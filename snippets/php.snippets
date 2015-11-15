@@ -88,7 +88,7 @@ snippet @i
 # injectFoo
 snippet inj
 	public function inject${1:Service}(${2:Type} $${3:var}) {
-		$this->${3} = $${3}
+		$this->$3 = $$3
 	}
 	${4}
 # Presenter.startup
@@ -114,8 +114,8 @@ snippet bef
 	}
 # Presenter.renderFoo
 snippet ren
-	public function render${1:Default}(${1}) {
-		${2:// code}
+	public function render${1:Default}(${2}) {
+		${3:// code}
 	}
 # Presenter.afterRender
 snippet aft
@@ -137,7 +137,7 @@ snippet ccf
 	protected function createComponent${1:Name}Form() {
 		$form = new ${2:Nette\Application\UI\Form};
 
-		${2:// code}
+		${3:// code}
 
 		return $form;
 	}
@@ -154,9 +154,9 @@ snippet fsucc
 	${2}
 # form.onSuccess function
 snippet succ
-	public function ${1:form}Succeeded(${1:$form, $values}) {
-		${2:// code}
+	public function ${1:form}Succeeded(${2:$form, $values}) {
+		${3:// code}
 	}
 snippet fm
 	$this->flashMessage('${1}', '${2:info}');
-	${2}
+	${3}
