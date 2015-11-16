@@ -2,7 +2,7 @@
 " Language:         NEON
 " Maintainer:       Filip Pobořil <tsuki@fpob.eu>
 " Created:          2015-07-28
-" Latest Revision:  2015-11-14
+" Latest Revision:  2015-11-16
 " Description:      NEON syntax highlighting
 
 if exists('b:current_syntax') && b:current_syntax ==? 'neon'
@@ -24,7 +24,7 @@ syn keyword neonBoolean true True TRUE yes Yes YES on On ON
 syn keyword neonBoolean false False FALSE no No NO off Off OFF
 syn keyword neonConstant null Null NULL
 
-syn match neonNumber /\(\s\|=\)\@<=\(\([0-9]\+\|0x[0-9a-fA-F]\+\)\|\([0-9]*\.[0-9]+\)\)\(\s\|$\|,\)\@=/
+syn match neonNumber /\(\s\|=\)\@<=[+-]\?\(\([0-9]\+\|0x[0-9a-fA-F]\+\)\|\([0-9]*\.[0-9]\+\)\)\(\s\|$\|,\)\@=/
 syn match neonString /\('[^'\n]*'\|"[^"\n]*"\)/ contains=neonIdentifier
 
 syn match neonDelimiter "[[{()}\],]"
