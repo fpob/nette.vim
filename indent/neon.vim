@@ -31,7 +31,7 @@ function! GetNetteNeonIndent(lnum)
 
     let l:indent = indent(l:prev_lnum)
 
-    if l:prev_line =~? '\v^\s*(\w|\.)+:'
+    if l:prev_line =~? '\v^\s*(\w|\.)+:$'
         let l:indent += &shiftwidth
     elseif l:prev_line ==? ''
         let l:indent = indent(l:prev_lnum - 1)
