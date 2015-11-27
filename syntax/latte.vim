@@ -23,7 +23,7 @@ syn keyword latteKeyword contained include cache php use l r contentType status
 syn keyword latteKeyword contained var default capture
 syn keyword latteKeyword contained block define includeblock layout extends
 syn keyword latteKeyword contained control form label input inputError snippet
-syn keyword latteConditional contained if elseif else ifset elseifset
+syn keyword latteConditional contained if elseif else ifset elseifset ifCurrent
 syn keyword latteRepeat contained foreach as for while continueIf breakIf first last sep
 syn keyword latteDebug contained dump debugbreak
 
