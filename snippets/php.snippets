@@ -24,12 +24,10 @@ snippet n.p
 	Nette\Utils\Paginator
 # Debugger.barDump
 snippet bd
-	\Tracy\Debugger::barDump(${1});
-	${2}
+	\Tracy\Debugger::barDump(${1});${2}
 # Debugger.fireLog
 snippet fl
-	\Tracy\Debugger::fireLog(${1});
-	${2}
+	\Tracy\Debugger::fireLog(${1});${2}
 # Presenter
 snippet pres
 	namespace ${1:App\Presenters};
@@ -76,21 +74,20 @@ snippet model
 	 *
 	 * @author `g:snips_author`
 	 */
-	${2:}class ${3:Model} extends ${4:Nette\Object}
+	${2:}class ${3:`Filename()`} extends ${4:Nette\Object}
 	{
 		${6:// code}
 	}
 # Field @inject
 snippet @i
 	/** @var ${1:Type} @inject */
-	public $${2:name}
+	public $${2:name};
 	${3}
 # injectFoo
 snippet inj
 	public function inject${1:Service}(${2:Type} $${3:var}) {
-		$this->$3 = $$3
-	}
-	${4}
+		$this->$3 = $$3;
+	}${4}
 # Presenter.startup
 snippet sta
 	protected function startup() {
@@ -158,5 +155,4 @@ snippet succ
 		${3:// code}
 	}
 snippet fm
-	$this->flashMessage('${1}', '${2:info}');
-	${3}
+	$this->flashMessage('${1}', '${2:info}');${3}
