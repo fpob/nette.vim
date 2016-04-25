@@ -28,7 +28,7 @@ syn match neonString /\('[^'\n]*'\|"[^"\n]*"\)/ contains=neonIdentifier
 syn match neonDelimiter "[[{()}\],]"
 syn match neonOperator /\(\(^\s*\)\@<=- \|[*=:]\|\.\.\.\|::\)/
 
-syn match neonStructure /\(^\s*\)\@<=\(\w\|\.\)\+:\@=/
+syn match neonStructure /\(^\s*\)\@<=\(\w\|[.-]\)\+:\@=/
 syn region neonIdentifier oneline start=/%/ end=/%/
 syn match neonFunction /@\(\w\|\\\|\.\)\+/
 
