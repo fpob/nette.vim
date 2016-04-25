@@ -1,9 +1,7 @@
 " File:             plugin/nette.vim
 " Maintainer:       Filip Pobořil <tsuki@fpob.eu>
-" Created:          2015-11-13
-" Latest Revision:  2015-11-14
 
-if exists('b:loaded_nette') && b:loaded_nette
+if exists('g:loaded_nette') && g:loaded_nette
     finish
 endif
 

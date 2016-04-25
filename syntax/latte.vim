@@ -1,8 +1,6 @@
 " File:             syntax/latte
 " Language:         Latte
 " Maintainer:       Filip Pobořil <tsuki@fpob.eu>
-" Created:          2015-07-27
-" Latest Revision:  2015-11-14
 " Description:      Latte syntax highlighting
 
 if exists('b:current_syntax') && b:current_syntax ==? 'latte'

@@ -1,8 +1,6 @@
 " File:             syntax/neon.vim
 " Language:         NEON
 " Maintainer:       Filip Pobořil <tsuki@fpob.eu>
-" Created:          2015-07-28
-" Latest Revision:  2015-11-16
 " Description:      NEON syntax highlighting
 
 if exists('b:current_syntax') && b:current_syntax ==? 'neon'

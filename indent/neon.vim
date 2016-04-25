@@ -1,8 +1,6 @@
 " File:             indent/neon.vim
 " Language:         NEON
 " Maintainer:       Filip Pobořil <tsuki@fpob.eu>
-" Created:          2015-11-14
-" Latest Revision:  2015-11-14
 " Description:      Indentation support for NEON files
 
 if exists('b:did_indent') && b:did_indent
