@@ -35,7 +35,7 @@ syn match latteMacroIdentifier contained /\m\(,\s*\)\@<=\([a-zA-Z]\w*\)\(\s\|=\)
 syn match latteMacroLink contained /\m\(\({[{%]\@!\|{{\|{%\)\(link\|plink\)\s\)\@<=[a-zA-Z0-9:#]\+/
 syn match latteMacroFilter contained /\m|\@<=[a-zA-Z][a-zA-Z0-9_-]*/
 syn match latteMacroPhpCode contained contains=@phpClTop /\m\({[{%]\@!\|{{\|{%\)\@<=.\{-}\(|[a-zA-Z]\|}[}%]\@!\|}}\|%}\)\@=/
-syn match latteMacroPhpCode contained contains=@phpClTop /\m\$[a-zA-Z]\(\w\+\)\?\(->\w\+\((.\{-}\)\?\)\?\(|[a-zA-Z]\|}[}%]\@!\|}}\|%}\)\@=/
+syn match latteMacroPhpCode contained contains=@phpClTop /\m\$[a-zA-Z]\(\w\+\)\?\(->\w\+\((.\{-}\)\?\)*\(|[a-zA-Z]\|}[}%]\@!\|}}\|%}\)\@=/
 syn region latteMacroPhpCode contained contains=@phpClTop keepend start=/\m['"]/ end=/\m['"]/
 
 syn region latteNMacro matchgroup=latteOperator keepend start=/\mn:[a-z][A-Za-z-]*="/ end=/\m"/ contains=@phpClTop
