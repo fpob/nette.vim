@@ -7,6 +7,10 @@ if exists('b:current_syntax') && b:current_syntax ==? 'latte'
     finish
 endif
 
+if !exists('g:nette_deprecated')
+    let g:nette_deprecated = 999
+endi
+
 runtime! syntax/html.vim
 unlet! b:current_syntax
 
@@ -19,7 +23,7 @@ syn region latteCssStyle keepend start=/\m<style[^>]*>/ end=/\m<\/style>/ contai
 syn keyword latteKeyword contained include cache php use l r contentType status
 syn keyword latteKeyword contained var default capture
 syn keyword latteKeyword contained block define includeblock layout extends import
-syn keyword latteKeyword contained control form label input inputError snippet snippetArea
+syn keyword latteKeyword contained control form formContainer label input inputError snippet snippetArea
 syn keyword latteKeyword contained link plink syntax
 syn keyword latteConditional contained if elseif else ifset elseifset ifCurrent
 syn keyword latteRepeat contained foreach as for while continueIf breakIf first last sep
@@ -27,23 +31,29 @@ syn keyword latteDebug contained dump debugbreak
 
 syn cluster latteExpression contains=latteMacroPhpCode,latteKeyword,latteConditional,latteRepeat,latteDebug,latteMacroIdentifier,latteMacroLink,latteMacroOperator,latteMacroFilter,latteMacroDelimiter,latteError
 
-syn region latteMacro matchgroup=latteOperator keepend start=/\m{[%{]\@!\/\?!\@!/ end=/\m\/\?[%{]\@!}/ contains=@latteExpression
-syn region latteMacro matchgroup=latteOperator keepend start=/\m{{\/\?!\@!/ end=/\m\/\?}}/ contains=@latteExpression
-syn region latteMacro matchgroup=latteOperator keepend start=/\m{%\/\?!\@!/ end=/\m\/\?%}/ contains=@latteExpression
+syn region latteMacro matchgroup=latteOperator keepend start=/\m{[%{]\@!\/\?/ end=/\m\/\?[%{]\@!}/ contains=@latteExpression
+
+if g:nette_deprecated >= 204
+    syn region latteMacro matchgroup=latteDeprecated keepend start=/\m{{\/\?/ end=/\m\/\?}}/ contains=@latteExpression
+    syn region latteMacro matchgroup=latteDeprecated keepend start=/\m{%\/\?/ end=/\m\/\?%}/ contains=@latteExpression
+else
+    syn region latteMacro matchgroup=latteOperator keepend start=/\m{{\/\?/ end=/\m\/\?}}/ contains=@latteExpression
+    syn region latteMacro matchgroup=latteOperator keepend start=/\m{%\/\?/ end=/\m\/\?%}/ contains=@latteExpression
+endif
 
 syn match latteMacroOperator contained /\m\(|\|=>\)/
 syn match latteMacroDelimiter contained /\m[,:]/
-syn match latteMacroIdentifier contained /\m\(\({[{%]\@!\|{{\|{%\)[a-zA-Z]\+\s\)\@<=\h[a-zA-Z0-9_:-]*\([%}\s,|].*\)\@=/
+syn match latteMacroIdentifier contained /\m\(\({[{%]\@!\|{{\|{%\)[a-zA-Z]\+\s\)\@<=\h[a-zA-Z0-9_:-]*\([/%} ,|].*\)\@=/
 syn match latteMacroIdentifier contained /\m\(,\s*\)\@<=\(\h\w*\)\(\s\|=\)\@=/
-syn match latteMacroLink contained /\m\(\({[{%]\@!\|{{\|{%\)\(link\|plink\)\s\)\@<=[a-zA-Z0-9:#]\+/
-syn match latteMacroFilter contained /\m|\@<=\h\w*\(:\@=\)\?/
-syn match latteMacroPhpCode contained contains=@phpClTop /\m\(\({[{%]\@!\|{{\|{%\)\(php\|var\|if\|elseif\|for\|foreach\|while\|continueIf\|breakIf\|dump\|debugbreak\)\?\)\@<=.\+\(|[a-zA-Z]\|}[}%]\@!\|}}\|%}\)\@=/
-syn match latteMacroPhpCode contained contains=@phpClTop /\m\(\(|\h\w\+:\)\@<=\|\$\|\(\h\w*(\)\@=\)\w.\{-}\(|\h\|}[}%]\@!\|}}\|%}\)\@=/
+syn match latteMacroLink contained /\m\(\({[{%]\@!\|{{\|{%\)\(link\|plink\)\s\)\@<=\S\+!\?/
+syn match latteMacroFilter contained /\m\([^|]|\)\@<=\h\w*\(:\@=\)\?/
+syn match latteMacroPhpCode contained contains=@phpClTop /\m\({[{%]\@!\|{{\|{%\)\(php\|var\|if\|elseif\|for\|foreach\|while\|continueIf\|breakIf\|dump\|debugbreak\)\@=.\+\(}[}%]\@!\|}}\|%}\)\@=/
+syn match latteMacroPhpCode contained contains=@phpClTop,latteMacroFilter /\m\(\(|\h\w\+:\)\@=\|\$\|\(\h\w*(\)\@=\)\w.\{-1,}\(|\h\|}[}%]\@!\|}}\|%}\)\@=/
 syn region latteMacroPhpCode contained contains=@phpClTop keepend start=/\m['"]/ end=/\m['"]/
 syn region latteMacroTranslate matchgroup=latteOperator start=/\m\({[{%]\@!\|{{\|{%\)\/\?_/ end=/\(}[}%]\@!\|}}\|%}\)/
 
-syn region latteNMacro matchgroup=latteOperator keepend start=/\mn:\h[A-Za-z-]*="/ end=/\m"/ contains=@phpClTop,latteNMacroLink,latteNMacroIdentifier
-syn match latteNMacroLink contained /\m\(n:href="\)\@<=\S\+!\?\(\s\@=\)\?/
+syn region latteNMacro matchgroup=latteOperator keepend start=/\mn:\h[A-Za-z-]*="/ end=/\m"\A/ skip=/[\[(]"/ contains=@phpClTop,latteNMacroLink,latteNMacroIdentifier
+syn match latteNMacroLink contained /\m\(n:href="\)\@<=\S\+!\?/
 syn match latteNMacroIdentifier contained /\m\(n:\(name\|block\|syntax\)="\)\@<=\h\S*/
 
 syn cluster htmlPreproc add=latteMacro
@@ -55,10 +65,18 @@ syn keyword latteTodo contained TODO FIXME XXX
 syn region latteComment start=/\m{\*/ end=/\m\*}/ contains=latteTodo
 syn region latteComment start=/\m{{\*/ end=/\m\*}}/ contains=latteTodo
 
-syn clear phpRegion
-syn region latteError keepend start=/\m<?\(php\)\?/ end=/?>/
-syn match latteError /\m\({[{%]\@!\|{{\|{%\)!.*\([%}]\)/
-syn cluster htmlPreproc add=latteError
+if g:nette_deprecated
+    syn cluster htmlPreproc add=latteDeprecated
+    syn clear phpRegion
+    syn region latteDeprecated keepend start=/\m<?\(php\)\?/ end=/?>/
+    syn match latteDeprecated /\m\({[{%]\?\|{{\|{%\)!.*\([%}]\)/
+endif
+
+if g:nette_deprecated >= 204
+    syn match latteDeprecated /\m\({[{%]\?\|{{\|{%\)\(?\|use\|status\).*\([%}]\)/
+    syn keyword latteDeprecated containedin=latteMacro includeblock
+    syn keyword latteDeprecated containedin=latteMacroFilter safeurl nl2br
+endif
 
 hi def link latteOperator Operator
 hi def link latteKeyword Keyword
@@ -76,8 +94,6 @@ hi def link latteMacroDelimiter Delimiter
 hi def link latteTodo Todo
 hi def link latteComment Comment
 hi def link latteMacroTranslate String
-
-hi def link phpRegion Error
-hi def link latteError Error
+hi def link latteDeprecated Error
 
 let b:current_syntax = 'latte'

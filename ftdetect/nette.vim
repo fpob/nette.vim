@@ -12,6 +12,6 @@ augroup NetteFtdetect
     autocmd BufRead,BufNewFile *.neon setlocal filetype=neon
 
     " Latte template
-    autocmd BufRead,BufNewFile *.latte setlocal filetype=latte
+    autocmd BufRead,BufNewFile *.latte setlocal filetype=html.latte
 
 augroup END
