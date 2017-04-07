@@ -9,13 +9,18 @@ endif
 
 if !exists('g:nette_deprecated')
     let g:nette_deprecated = 999
-endi
+endif
 
-runtime! syntax/html.vim
+if match(&filetype, '\.') >= 0
+    let b:current_subsyntax = split(&filetype, '\.')[0]
+else
+    let b:current_subsyntax = 'html'
+endif
+
+execute "runtime! syntax/" . b:current_subsyntax . ".vim"
 unlet! b:current_syntax
 
-runtime! syntax/php.vim
-unlet! b:current_syntax
+syntax include @PHP syntax/php.vim
 
 syn region latteJavaScript keepend start=/\m<script[^>]*>/ end=/\m<\/script[^>]*>/me=s-1 contains=javaScript
 syn region latteCssStyle keepend start=/\m<style[^>]*>/ end=/\m<\/style>/ contains=cssStyle
@@ -68,8 +73,10 @@ syn region latteComment start=/\m{{\*/ end=/\m\*}}/ contains=latteTodo
 if g:nette_deprecated
     syn cluster htmlPreproc add=latteDeprecated
     syn clear phpRegion
-    syn region latteDeprecated keepend start=/\m<?\(php\)\?/ end=/?>/
     syn match latteDeprecated /\m\({[{%]\?\|{{\|{%\)!.*\([%}]\)/
+    if b:current_subsyntax ==# 'html'
+        syn region latteDeprecated keepend start=/\m<?\(php\)\?/ end=/?>/
+    endif
 endif
 
 if g:nette_deprecated >= 204

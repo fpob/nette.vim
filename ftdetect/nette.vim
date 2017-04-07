@@ -12,6 +12,11 @@ augroup NetteFtdetect
     autocmd BufRead,BufNewFile *.neon setlocal filetype=neon
 
     " Latte template
-    autocmd BufRead,BufNewFile *.latte setlocal filetype=html.latte
+    autocmd BufRead,BufNewFile *.latte
+                \   if search('^\({contentType.*xml\|<?xml\)', 'nw')
+                \|      setlocal filetype=xml.latte
+                \|  else
+                \|      setlocal filetype=html.latte
+                \|  endif
 
 augroup END
