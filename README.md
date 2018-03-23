@@ -27,5 +27,5 @@ If you don't have a preferred installation method, one option is to install
 
 ```
 cd ~/.vim/bundle
-git clone https://github.com/tpope/vim-fugitive
+git clone https://github.com/fpob/nette.vim
 ```
